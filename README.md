@@ -1,7 +1,7 @@
 Mibbu
 ========
 
-#### Javascript Game MicroFramework ####
+#### First Javascript Game MicroFramework ####
 
 Mibbu gives you everything you need for fast prototyping your Javascript game in just 4.35KB of code. Games created with Mibbu can be displayed using Canvas or DOM mode (you can change it with one single function, or use feature detection to use DOM where it is n canvas, like in IE family).
 
@@ -14,14 +14,15 @@ Mibbu gives you everything you need for fast prototyping your Javascript game in
 * Collisions detection with collision zones
 * Simple background manager
 * Callbacks after given number of frames
-Check [example](https://github.com/michalbe/mibbu/tree/master/example) for more!
+* Check [example](https://github.com/michalbe/mibbu/tree/master/example) for more
 
 ### Change Log ###
 
-2011 05 05 - **v0.1/odoacer** (4.35 KB, gzip: 64.320 KB)
+2011 05 05 - **v0.1/odoacer** (4.35 KB, gzip: 1.81 KB)
 
 * First release
 
+----
 
 ### License ###
 
