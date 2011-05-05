@@ -14,7 +14,7 @@ Mibbu gives you everything you need for fast prototyping your Javascript game in
 * Collisions detection with collision zones
 * Simple background manager
 * Callbacks after given number of frames
-Check [example](https://github.com/michalbe/mibbu/tree/master/example) for more!
+* Check [example](https://github.com/michalbe/mibbu/tree/master/example) for more
 
 ### Change Log ###
 
