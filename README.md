@@ -1,7 +1,7 @@
 Mibbu
 ========
 
-#### Javascript Game MicroFramework ####
+#### First Javascript Game MicroFramework ####
 
 Mibbu gives you everything you need for fast prototyping your Javascript game in just 4.35KB of code. Games created with Mibbu can be displayed using Canvas or DOM mode (you can change it with one single function, or use feature detection to use DOM where it is n canvas, like in IE family).
 
