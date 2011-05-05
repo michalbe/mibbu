@@ -15,23 +15,23 @@ var mibbu = function(Cwidth, Cheight, _parent){
         document = window['document'], //document declaration for Closure Compiler
         MB_elements = [], //all drawable elements
         MB_parentElement = _parent ? document.getElementById(_parent) : document.body, //parent element the canvas will be appended to
-		MB_mainCanvas, 
-		MB_mainContext,
-		MB_mainCanvasWidth = Cwidth || 400,
-		MB_mainCanvasHeight = Cheight || 300,
-		MB_addedLoops=[], //functions added to each loop frame
-		MB_drawLoop, //main loop
-		MB_preClear,
+	MB_mainCanvas, 
+	MB_mainContext,
+	MB_mainCanvasWidth = Cwidth || 400,
+	MB_mainCanvasHeight = Cheight || 300,
+	MB_addedLoops=[], //functions added to each loop frame
+	MB_drawLoop, //main loop
+	MB_preClear,
         MB_lastTime = new Date(), //time for FPS counter
-		MB_fpsMeasure=false,
+	MB_fpsMeasure=false,
         MB_ftpsDiv,
-		MB_collides=[], //array with references to objects with enabled collisions
-		MB_fixedIndexColl = [], //workaround for collisions
-		MB_Animate; 
+	MB_collides=[], //array with references to objects with enabled collisions
+	MB_fixedIndexColl = [], //workaround for collisions
+	MB_Animate; 
     /**
      * Older browser's fixes
      */
-	//IE fix Array.indexOf
+    //IE fix Array.indexOf
     //from 
     //http://michalbe.blogspot.com/2010/04/removing-item-with-given-value-from.html
     if(!Array.indexOf){
@@ -64,14 +64,14 @@ var mibbu = function(Cwidth, Cheight, _parent){
     var frameCount=0;
     var fps = 0;
     var MeasureFPS = function(){
-		var newTime = new Date();
-		var diffTime = ~~((newTime.getTime() - MB_lastTime.getTime()));
+	var newTime = new Date();
+	var diffTime = ~~((newTime.getTime() - MB_lastTime.getTime()));
 		
-		if (diffTime >= 1000) {
-			fps = frameCount;
-			frameCount = 0;
-			MB_lastTime = newTime;
-		}
+	if (diffTime >= 1000) {
+		fps = frameCount;
+		frameCount = 0;
+		MB_lastTime = newTime;
+	}
         var stringFps = 'FPS: ' + fps;
         if (MB_usingCanvas) {
             //MB_mainContext.fillStyle = "#fff";
@@ -136,21 +136,21 @@ var mibbu = function(Cwidth, Cheight, _parent){
         //interested in it so far.
 		MB_Animate = (function(){
 			return  window['webkitRequestAnimationFrame'] || 
-					window['mozRequestAnimationFrame']    || 
-					function(/* function */ callback, /* DOMElement */ element){
-						setTimeout(callback, 1000 / 60);
-					};
+				window['mozRequestAnimationFrame']    || 
+				function(/* function */ callback, /* DOMElement */ element){
+					setTimeout(callback, 1000 / 60);
+				};
 		})();
 		
-        //inline styling, not using setAttribute() 
+        //inline styling, without setAttribute() 
         //because of IE7 & IE8 bugs
-		MB_mainCanvasStyle = MB_mainCanvas.style;
-		MB_mainCanvas.width = MB_mainCanvasWidth;
-		MB_mainCanvas.height = MB_mainCanvasHeight;
+	MB_mainCanvasStyle = MB_mainCanvas.style;
+	MB_mainCanvas.width = MB_mainCanvasWidth;
+	MB_mainCanvas.height = MB_mainCanvasHeight;
         MB_mainCanvasStyle.width = MB_mainCanvasWidth+'px';
-		MB_mainCanvasStyle.height =MB_mainCanvasHeight+'px';
-		MB_mainCanvasStyle.position ='absolute'
-		MB_mainCanvasStyle.overflow = 'hidden';
+	MB_mainCanvasStyle.height =MB_mainCanvasHeight+'px';
+	MB_mainCanvasStyle.position ='absolute'
+	MB_mainCanvasStyle.overflow = 'hidden';
 		
         MB_parentElement.appendChild(MB_mainCanvas);
 		
