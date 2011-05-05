@@ -7,8 +7,6 @@ Mibbu gives you everything you need for fast prototyping your Javascript game in
 
 [Documentation](http://mibbu.eu)
 
-More? [#three.js on irc.freenode.net](http://webchat.freenode.net/?channels=three.js)
-
 
 ### Features of Mibbu ###
 * Rendering game using both - Canvas or DOM
@@ -24,11 +22,12 @@ Check [example](https://github.com/michalbe/mibbu/tree/master/example) for more!
 
 * First release
 
+
 ### License ###
 
 ####The MIT License####
 
-Copyright (c) 2011 Michal Budzynski. All rights reserved.
+Copyright (c) 2011 [Michal Budzynski](http://michalbe.blogspot.com). All rights reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
