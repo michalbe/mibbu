@@ -22,6 +22,7 @@ Mibbu gives you everything you need for fast prototyping your Javascript game in
 
 * First release
 
+----
 
 ### License ###
 
