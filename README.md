@@ -18,7 +18,7 @@ Mibbu gives you everything you need for fast prototyping your Javascript game in
 
 ### Change Log ###
 
-2011 05 05 - **v0.1/odoacer** (4.35 KB, gzip: 64.320 KB)
+2011 05 05 - **v0.1/odoacer** (4.35 KB, gzip: 1.81 KB)
 
 * First release
 
