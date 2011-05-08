@@ -18,8 +18,11 @@ Mibbu gives you everything you need for fast prototyping your Javascript game in
 
 ### Change Log ###
 
+2011 05 09 - **v0.1.1/atilla** (4.45 KB, gzip: 1.83 KB)
+* Array#indexOf fix by [killdream](https://github.com/killdream)
+* Proper declaration of MB_mainCanvasStyle variable
+ 
 2011 05 05 - **v0.1/odoacer** (4.35 KB, gzip: 1.81 KB)
-
 * First release
 
 ----

@@ -28,7 +28,8 @@ var mibbu = function(Cwidth, Cheight, _parent){
         MB_ftpsDiv,
         MB_collides=[], //array with references to objects with enabled collisions
         MB_fixedIndexColl = [], //workaround for collisions
-        MB_Animate; 
+        MB_Animate,
+		MB_mainCanvasStyle; 
     /**
      * Older browser's fixes
      */
