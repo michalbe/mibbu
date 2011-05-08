@@ -43,22 +43,22 @@ var mibbu = function(Cwidth, Cheight, _parent){
         var obj = Object(this);
         var len = obj.length >> 0;
 
-		start = +start || 0;
-		if (!len || start >= len){
+        start = +start || 0;
+        if (!len || start >= len){
             return -1;
         }
-		if (start < 0){
+        if (start < 0){
             start = Math.max(0, len - Math.abs(start));
         }
 
-		for (key = start; key < len; ++key){
-			if (key in obj && obj[key] === value){
+        for (key = start; key < len; ++key){
+            if (key in obj && obj[key] === value){
                 return key;
             }
         }
-		return -1;
-	}
-    
+        return -1;
+    }
+
     //and custom remove() method
     var rm = function(value, array) {
         if (array.indexOf(value)!==-1) {
