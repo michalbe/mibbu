@@ -32,20 +32,32 @@ var mibbu = function(Cwidth, Cheight, _parent){
     /**
      * Older browser's fixes
      */
-    //IE fix Array.indexOf
-    //from 
-    //http://michalbe.blogspot.com/2010/04/removing-item-with-given-value-from.html
-    if(!Array.indexOf){
-        Array.prototype.indexOf = function(obj){
-            var i;
-            for(i=0; i<this.length; i++){
-                if(this[i]===obj){
-                    return i;
-                }
-            }
+    // Fallback for Array#indexOf, where the implementation does not support it
+    // natively
+	//  
+	// Follows the algorithm described in ES-262 15.4.4.14
+	//
+    Array.prototype.indexOf = Array.prototype.indexOf
+    || function (value, start) {
+        var key;
+        var obj = Object(this);
+        var len = obj.length >> 0;
+
+		start = +start || 0;
+		if (!len || start >= len){
             return -1;
-        };
-    }
+        }
+		if (start < 0){
+            start = Math.max(0, len - Math.abs(start));
+        }
+
+		for (key = start; key < len; ++key){
+			if (key in obj && obj[key] === value){
+                return key;
+            }
+        }
+		return -1;
+	}
     
     //and custom remove() method
     var rm = function(value, array) {
