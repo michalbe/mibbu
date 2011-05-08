@@ -41,7 +41,7 @@ var mibbu = function(Cwidth, Cheight, _parent){
     || function (value, start) {
         var key;
         var obj = Object(this);
-        var len = obj.length >> 0;
+        var len = obj.length >>> 0;
 
         start = +start || 0;
         if (!len || start >= len){
