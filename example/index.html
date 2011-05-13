@@ -11,117 +11,119 @@
 	<script src="../mibbu-min.js"></script>
    
 	<script>
-		//create new game with 500x500 canvas size
+	//create new game with 500x500 canvas size
         var Game = new mibbu(500, 500);
         
-		//uncomment line below for disabling 
-		//canvas and swiching to DOM rendering
+	//uncomment line below for disabling 
+	//canvas and swiching to DOM rendering
         //Game.canvasOff();  
 		
-		//show FPS counter
+	//show FPS counter
         Game.fps();
 		
-		//now init all the elements - before calling 
-		//init funciton Mibbu didn't know if you want 
-		//to render it on canvas or using DOM
+	//now init all the elements - before calling 
+	//init funciton Mibbu didn't know if you want 
+	//to render it on canvas or using DOM
         Game.init();    
         
-		//create two sprites using reptile.png image, with
-		//width & height of single frame equals to 200,
-		//reptile.png has 8 frames ('7' if we count from '0') and
-		//only 1 ('0') animation inside
+	//create two sprites using reptile.png image, with
+	//width & height of single frame equals to 200,
+	//reptile.png has 8 frames ('7' if we count from '0') and
+	//only 1 ('0') animation inside
         var sprite = new Game.spr('img/reptile.png', 200, 200, 7, 0),
             sprite2 = new Game.spr('img/reptile.png', 200, 200, 7, 0),
-		//create new background using bg.jpg file and set it's speed
-		//to 6, direction to SOUTH, and initial position to (0,0)
+            //create new background using bg.jpg file and set it's speed
+	    //to 6, direction to SOUTH, and initial position to (0,0)
             background = new Game.bg('img/bg.jpg', 6, "S", {x:0,y:0});
         
-		//set position of 1st sprite to (100, 100) and
-		//it's x-index to 2
+	//set position of 1st sprite to (100, 100) and
+	//it's x-index to 2
         sprite.position(100, 100, 2);
 		
-		//set speed of redrwing the sprite frames
+	//set speed of redrwing the sprite frames
         sprite.speed(4);
 		
-		//extend sprite object with some additional 
-		//variables fr control movement etc.
-		//it is up to you how you will achieve this - 
-		//- it is not part of Mibbu
+	//extend sprite object with some additional 
+	//variables fr control movement etc.
+	//it is up to you how you will achieve this - 
+	//- it is not part of Mibbu
         sprite.y = 100;
-		sprite.d = 1;
-		sprite.type = 0;
+	sprite.d = 1;
+	sprite.type = 0;
 		
-		//the same here
+	//the same here
         //but we create variable for the speed of the animation
-		//we will use it later
+	//we will use it later
         var speed = sprite2.speed(4);
-		sprite2.position(100, 300, 2);
-		sprite2.y = 300;
-		sprite2.d = -1;
+
+	sprite2.position(100, 300, 2);
+	sprite2.y = 300;
+	sprite2.d = -1;
 		
-		//resize second sprite and remember 
-		//it's size in the file (functions like
-		//size(), frames(), etc. always return
-		//their values, even if you call them
-		//without parameters, like sprite2.size();
-		var size = sprite2.size(100, 100);
+	//resize second sprite and remember 
+	//it's size in the file (functions like
+	//size(), frames(), etc. always return
+	//their values, even if you call them
+	//without parameters, like sprite2.size();
+	var size = sprite2.size(100, 100);
 		
-		//start moving background
+	//start moving background
         background.on();
 		
-		//start main game loop
+	//start main game loop
         Game.on();
 		
-		//now we will create additional function
-		//to be called on each frame of main game loop
-		var additionalLoop = function(){
-			if (sprite.y < 0) sprite.d*=-1;
+	//now we will create additional function
+	//to be called on each frame of main game loop
+	var additionalLoop = function(){
+		if (sprite.y < 0) sprite.d*=-1;
 			
-			if (sprite2.y > 500-size.height) sprite2.d*=-1;
+		if (sprite2.y > 500-size.height) sprite2.d*=-1;
 	
-			sprite.y+=sprite.d*4;
-			sprite2.y+=sprite2.d*2;
+		sprite.y+=sprite.d*4;
+		sprite2.y+=sprite2.d*2;
 			
-			//we move the sprites by changing it's
-			//positions
-			sprite.position(100, sprite.y);
-			sprite2.position(100, sprite2.y);
+		//we move the sprites by changing it's
+		//positions
+		sprite.position(100, sprite.y);
+		sprite2.position(100, sprite2.y);
 			
+	}
+
+	//now add that function to the loop
+	Game.hook(additionalLoop);
+		
+	//lets check for the collisions
+	Game.hitsOn();
+		
+	//if 'sprite' will collide with 'sprite2' then:
+	sprite.hit(sprite2, function(){
+		//change it's type
+		if (sprite.type === 0) {
+			sprite.type = 1;
+			sprite.change('img/reptile.png', 200, 200, 7, 0);
+			
+		} else {
+			sprite.type = 0;				
+			sprite.change('img/reptile2.png', 200, 200, 7, 0);
 		}
-		//now add that function to the loop
-		Game.hook(additionalLoop);
-		
-		//lets check for the collisions
-		Game.hitsOn();
-		
-		//if 'sprite' will collide with 'sprite2' then:
-		sprite.hit(sprite2, function(){
-			//change it's type
-			if (sprite.type === 0) {
-				sprite.type = 1;
-				sprite.change('img/reptile.png', 200, 200, 7, 0);
-				
-			} else {
-				sprite.type = 0;				
-				sprite.change('img/reptile2.png', 200, 200, 7, 0);
-			}
-			//resize it
-			sprite.size(150, 150);
+		//resize it
+		sprite.size(150, 150);
 			
-			//and change direction of it's movement
-			//also - it is not the part of Mibbu
-			sprite.d*=-1;
-			sprite2.d*=-1;
-		});
+		//and change direction of it's movement
+		//also - it is not the part of Mibbu
+		sprite.d*=-1;
+		sprite2.d*=-1;
+	});
 		
-		//create callback for the second sprite
-		//it will change the speed of animation
-		//after every second full animation
-		//hope I explained it clearly:)
-		sprite2.callback(function(){
-			speed++;
-			sprite2.speed(speed);
-		}, 2);
+	//create callback for the second sprite
+	//it will change the speed of animation
+	//after every second full animation
+	//hope I explained it clearly:)
+	sprite2.callback(function(){
+		speed++;
+		sprite2.speed(speed);
+	}, 2);
     </script>
 	</body>
 </html>
