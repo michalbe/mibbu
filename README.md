@@ -18,6 +18,10 @@ Mibbu gives you everything you need for fast prototyping your Javascript game in
 
 ### Change Log ###
 
+2011 05 19 - **v0.1.2/guanabhadra** (4.36 KB, gzip: 1.81 KB)
+
+* Changes in Array#indexOf implementation - we don't need full spec implementation here.
+
 2011 05 09 - **v0.1.1/atilla** (4.45 KB, gzip: 1.83 KB)
 
 * Array#indexOf fix by [killdream](https://github.com/killdream)

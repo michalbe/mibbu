@@ -35,9 +35,11 @@ var mibbu = function(Cwidth, Cheight, _parent){
      */
     // Fallback for Array#indexOf, where the implementation does not support it
     // natively
-	//  
-	// Follows the algorithm described in ES-262 15.4.4.14
-	//
+    //  
+    // Follows the algorithm described in ES-262 15.4.4.14
+    //
+    /*
+    //MDC spec-like implementation
     Array.prototype.indexOf = Array.prototype.indexOf
     || function (value, start) {
         var key;
@@ -58,6 +60,15 @@ var mibbu = function(Cwidth, Cheight, _parent){
             }
         }
         return -1;
+    }
+    */
+    // lastIndexOf implementation by Andrea Giammarchi
+    // form Falsy Values conference
+    // http://webreflection.blogspot.com
+    Array.prototype.indexOf = Array.prototype.indexOf ||
+    function(value){
+        for (var i = this.length; i-- && this[i]!== value;) {}
+        return i;
     }
 
     //and custom remove() method
@@ -241,8 +252,8 @@ var mibbu = function(Cwidth, Cheight, _parent){
             MB_mainContext.lineTo(p1Right, p1Top);
             */
            for(element in MB_collides[loopIndex].hits){
-                   p2 = MB_fixedIndexColl[element];
-                   p2Top = p2.posY + p2.cZ.t;
+                p2 = MB_fixedIndexColl[element];
+                p2Top = p2.posY + p2.cZ.t;
                 p2Bottom = p2.posY + p2.height - p2.cZ.b;
                 p2Left = p2.posX + p2.cZ.l;
                 p2Right = p2.posX + p2.width - p2.cZ.r;
@@ -256,14 +267,14 @@ var mibbu = function(Cwidth, Cheight, _parent){
             MB_mainContext.stroke();
             */
                 if (!(
-                    (p1Top        > p2Bottom) ||   
-                    (p1Bottom    < p2Top)     ||   
-                    (p1Left        > p2Right)     ||   
-                    (p1Right    < p2Left)
+                    (p1Top     > p2Bottom) ||   
+                    (p1Bottom  < p2Top)    ||   
+                    (p1Left    > p2Right)  ||   
+                    (p1Right   < p2Left)
                 )){
                         //console.dir(MB_collides[loopIndex].hits)
                         MB_collides[loopIndex].hits[element]();
-                     } 
+                  } 
          }
          
         }
