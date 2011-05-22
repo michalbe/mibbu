@@ -3,20 +3,25 @@ Mibbu
 
 #### First Javascript Game MicroFramework ####
 
-Mibbu gives you everything you need for fast prototyping your Javascript game in just 4.35KB of code. Games created with Mibbu can be displayed using Canvas or DOM mode (you can change it with one single function, or use feature detection to use DOM where it is n canvas, like in IE family).
-
+Mibbu gives you everything you need for fast prototyping your Javascript game in less than 2.5KB  of gzipped code. Games created with Mibbu can be displayed using Canvas or DOM mode (you can change it with one single function, or use feature detection to use DOM where it is no canvas, like in IE family). Since **v0.2/suiko** Mibbu supports also CSS animations in Webkit. 
 [Documentation](http://mibbu.eu)
 
 
 ### Features of Mibbu ###
 * Rendering game using both - Canvas or DOM
-* Animation of the sprites
+* Animation of the sprites (using Canvas, DOM or CSS Aniation in Webkit)
 * Collisions detection with collision zones
 * Simple background manager
 * Callbacks after given number of frames
 * Check [example](https://github.com/michalbe/mibbu/tree/master/example) for more
 
 ### Change Log ###
+
+2011 05 23 - **v0.2/suiko** (5.54 KB, gzip 2.12 KB)
+
+* CSS3 Animations support in Webkit browsers (tested on Chrome 11 & Safari 5.03)
+* .cssAnimationOff() function added (works the same as .canvasOff() but for CSS Animations)
+* some major & minor bug fixes
 
 2011 05 19 - **v0.1.2/guanabhadra** (4.36 KB, gzip: 1.81 KB)
 

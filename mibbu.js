@@ -1,18 +1,19 @@
 /*global document, setInterval, setTimeout, Image, clearTimeout*/
 
 /**
- * 
- * mibbu - javascript canvas/DOM game framework
- * by Michal Budzynski
- * http://michalbe.blogspot.com
- * http://twitter.com/michalbe
- * http://mibbu.eu
- * http://onGameStart.com
- * 
- */
+* 
+* mibbu - javascript canvas/DOM game framework
+* by Michal Budzynski
+* http://michalbe.blogspot.com
+* http://twitter.com/michalbe
+* http://mibbu.eu
+* http://onGameStart.com
+* 
+*/
 
 var mibbu = function(Cwidth, Cheight, _parent){
     var MB_usingCanvas = true, //use canvas or DOM?
+        MB_usingCSSAnimations = false,
         document = window['document'], //document declaration for Closure Compiler
         MB_elements = [], //all drawable elements
         MB_parentElement = _parent ? document.getElementById(_parent) : document.body, //parent element the canvas will be appended to
@@ -29,10 +30,10 @@ var mibbu = function(Cwidth, Cheight, _parent){
         MB_collides=[], //array with references to objects with enabled collisions
         MB_fixedIndexColl = [], //workaround for collisions
         MB_Animate,
-	MB_mainCanvasStyle; 
+        MB_mainCanvasStyle; 
     /**
-     * Older browser's fixes
-     */
+    * Older browser's fixes
+    */
     // Fallback for Array#indexOf, where the implementation does not support it
     // natively
     //  
@@ -74,11 +75,11 @@ var mibbu = function(Cwidth, Cheight, _parent){
     //and custom remove() method
     var rm = function(value, array) {
         if (array.indexOf(value)!==-1) {
-           array.splice(array.indexOf(value), 1);
-           return true;
-       } else {
-          return false;
-       };
+        array.splice(array.indexOf(value), 1);
+        return true;
+    } else {
+        return false;
+    };
     } 
 
         
@@ -116,6 +117,9 @@ var mibbu = function(Cwidth, Cheight, _parent){
     * Start/Stop functions
     **/
     
+    var calculateSpeed = function(speed, frames) {
+        return (~~((1/(60/speed))*100)/100)*(frames+1);
+    };
     //main drawing function
     var DrawAll = function(){
         
@@ -184,21 +188,19 @@ var mibbu = function(Cwidth, Cheight, _parent){
     var MB_InitCanvas = function() {
         MB_mainCanvas = document.createElement('canvas');
         
-        MB_InitCore();
         MB_mainContext = MB_mainCanvas.getContext('2d');
         MB_mainContext.i = MB_mainContext.drawImage;  
         
         //sorting all elements is like Z-Index for canvas
         MB_elements.sort(function(a,b){return a.zOrder - b.zOrder;});
-  
+
     };    
     
     var MB_InitDOM = function() {
-        
+                    
         MB_mainCanvas = document.createElement('div');
         
         //MB_mainCanvas.style.overflow = 'hidden';
-        MB_InitCore();
         
         if (MB_fpsMeasure) {
             
@@ -251,13 +253,13 @@ var mibbu = function(Cwidth, Cheight, _parent){
             MB_mainContext.lineTo(p1Left, p1Top);
             MB_mainContext.lineTo(p1Right, p1Top);
             */
-           for(element in MB_collides[loopIndex].hits){
+        for(element in MB_collides[loopIndex].hits){
                 p2 = MB_fixedIndexColl[element];
                 p2Top = p2.posY + p2.cZ.t;
                 p2Bottom = p2.posY + p2.height - p2.cZ.b;
                 p2Left = p2.posX + p2.cZ.l;
                 p2Right = p2.posX + p2.width - p2.cZ.r;
-           /*
+        /*
             MB_mainContext.moveTo(p2Right, p2Top);
             
             MB_mainContext.lineTo(p2Right, p2Bottom);
@@ -274,9 +276,9 @@ var mibbu = function(Cwidth, Cheight, _parent){
                 )){
                         //console.dir(MB_collides[loopIndex].hits)
                         MB_collides[loopIndex].hits[element]();
-                  } 
-         }
-         
+                } 
+        }
+        
         }
     };
         
@@ -290,24 +292,39 @@ var mibbu = function(Cwidth, Cheight, _parent){
                 //draw canvas
                 try {
                     MB_mainContext.i(t.image, 
-                                     t.iWidth * t.animation, 
-                                     t.iHeight * t.f, 
-                                     t.iWidth, 
-                                     t.iHeight, 
-                                     t.posX, 
-                                     t.posY, 
-                                     t.width, 
-                                     t.height);
+                                    t.iWidth * t.animation, 
+                                    t.iHeight * t.f, 
+                                    t.iWidth, 
+                                    t.iHeight, 
+                                    t.posX, 
+                                    t.posY, 
+                                    t.width, 
+                                    t.height);
                     } catch(e) {
                         //if image is not ready yet try to display it on another frame
                         //delete this and build preLoader
                     }
-            } : function(){
+            } : MB_usingCSSAnimations ? function(){ /*css animations*/ } : function(){
             //draw DOM
-                t.image.style.top = t.height * t.f*-1+'px';
-                t.image.style.left = t.width * t.animation*-1+'px';
+                t.si.top = t.height * t.f*-1+'px';
+                t.si.left = t.width * t.animation*-1+'px';
             },
-            t = {};
+            t = {},
+            //prepare class for CSS animation
+            constructAnimationClass = function(){
+                var animationClass = "@-webkit-keyframes 's"+t.id+"' {\n",
+                    step = 100/(t.fs+1),
+                    str = '% { -webkit-transform: translate(';
+                for (var q = 0; q < t.fs+1; q++) {
+                    animationClass += ~~((step*q)*100)/100+ str +t.animation*t.width*-1+'px,'+q*t.height*-1+'px); }\n';
+                    animationClass += ~~((step*(q+1)-0.01)*100)/100+ str +t.animation*t.width*-1+'px,'+q*t.height*-1+'px); }\n';
+                }
+                
+                return animationClass += '100'+ str +t.animation*t.width+'px, 0px); }\n}';
+                
+            };
+            
+        
         t.id = MB_elements.length;
                 
         t.image = new Image();
@@ -322,7 +339,7 @@ var mibbu = function(Cwidth, Cheight, _parent){
         t.animations = _animations;
         t.colllides = false;
         t.hits = {};
-                   
+                
         t.f = 0;
         t.animation = 0;
         t.speed = 1;
@@ -356,10 +373,26 @@ var mibbu = function(Cwidth, Cheight, _parent){
             t.s.position = 'absolute';
             t.s.zIndex = t.zOrder;
             
-            t.image.style.position="absolute";
+            t.si = t.image.style;
+            
+            t.si.position="absolute";
+            
+            if (MB_usingCSSAnimations) {
+            //calculate keyframes for CSS animation
+                
+                
+                //append keyframe class to the document
+                t.animStyle = document.createElement('style');
+                t.animStyle.innerHTML = constructAnimationClass();
+                //document.getElementsByTagName('head')[0]
+                document.body.appendChild(t.animStyle);
+                
+                //additional style attribute for the image
+                t.si.webkitAnimation = "'s"+t.id+"' "+calculateSpeed(t.speed, t.fs)+"s linear 0 infinite";
+                
+            }
+            
             t.div.appendChild(t.image);            
-            
-            
             
             MB_mainCanvas.appendChild(t.div);
         }
@@ -401,8 +434,8 @@ var mibbu = function(Cwidth, Cheight, _parent){
             setCollide(true);
             t.hits[object.id()] = callback;
             if (MB_collides.indexOf(t) === -1) {
-                   MB_collides.push(t);
-               }
+                MB_collides.push(t);
+            }
         };        
         
         t.draw = function() {
@@ -442,12 +475,19 @@ var mibbu = function(Cwidth, Cheight, _parent){
                     t.s.width = w+'px';
                     t.s.height = h+'px';
                     
-                    t.image.style.width = w*(t.animations+1)+'px';
-                    t.image.style.height = h*(t.fs+1)+'px';
-                    
+                    t.si.width = w*(t.animations+1)+'px';
+                    t.si.height = h*(t.fs+1)+'px';
+                                        
                 }
                 t.width = w;
                 t.height = h;
+                if (MB_usingCSSAnimations) {
+                    //any smarter way to refresh cssAnimation than clearing the name of it?
+                    t.si.webkitAnimationName = '';
+                    t.animStyle.innerHTML = constructAnimationClass();
+                    t.si.webkitAnimationName = 's'+t.id;
+                    //t.si.webkitAnimationDuration = calculateSpeed(t.speed, t.fs)+'s';
+                };
             }
             return {width:t.width,height:t.height};
         };
@@ -471,21 +511,31 @@ var mibbu = function(Cwidth, Cheight, _parent){
                 t.callback = fn;
                 t.callMaxIters = iteration;
             },
-            'change': function(image, width, height, frames, animations) {
+            'change': function(image, width, height, frames, animation) {
                 t.image.src = image;
                 t.width = width;
                 t.height = height;
                 t.iWidth = width;
                 t.iHeight = height;
                 t.fs = frames;
-                t.animations = animations;
+                t.animation = animation;
                 t.interval = 0;
                 t.f = 0;
+                t.callback = null;
+                t.callIters=0;
+                t.callMaxIters=0;
+                
                 if (!MB_usingCanvas) {
-                    t.image.style.width = width*(t.animations+1)+'px';
-                    t.image.style.height = height*(t.fs+1)+'px';
+                    t.si.width = width*(t.animation+1)+'px';
+                    t.si.height = height*(t.fs+1)+'px';
                     t.s.width = width+'px';
                     t.s.height = height+'px';
+                    if (MB_usingCSSAnimations) {
+                    //any smarter way to refresh cssAnimation than clearing it's name?
+                        t.si.webkitAnimationName = '';
+                        t.animStyle.innerHTML = constructAnimationClass(); 
+                        t.si.webkitAnimationName = 's'+t.id;
+                    }
                 }
                 
                 t.cZ = {
@@ -497,16 +547,38 @@ var mibbu = function(Cwidth, Cheight, _parent){
             },
             
             'size':reSize,
-            'speed':function(e) { if (e !== undefined) { t.speed=e; t.interval=0;} return t.speed;},
-            'animation':function(e) { if (e !== undefined) t.animation=e; return t.animation;},
+            'speed':function(e) { 
+                if (e !== undefined) { 
+                    t.speed=e; 
+                    t.interval=0; 
+                    if (MB_usingCSSAnimations){
+                        t.si.webkitAnimationDuration = calculateSpeed(e, t.fs)+'s';
+                    } 
+                } 
+                return t.speed;
+            },
+            'animation':function(e) { 
+                if (e !== undefined) { 
+                
+                    t.animation=e;  
+                    
+                    if (MB_usingCSSAnimations) {
+                    //any smarter way to refresh cssAnimation than clearing the name of it?
+                        t.si.webkitAnimationName = '';
+                        t.animStyle.innerHTML = constructAnimationClass(); 
+                        t.si.webkitAnimationName = 's'+t.id;
+                    }
+                } 
+                return t.animation;
+            },
             'frame':function(e) { if (e !== undefined) t.f=e; return t.f;},
             'id': function() { return t.id; }
         };
     };
 
     /** 
-     * SPRITES END
-     **/
+    * SPRITES END
+    **/
     
     /**
     * START BACKGROUNDS
@@ -614,20 +686,51 @@ var mibbu = function(Cwidth, Cheight, _parent){
 
     
     /**
-     * Constructor functions
-     */
+    * Constructor functions
+    */
     MB_detectCanvas();
     
     
     return {
         //config
         'fps': function() {MB_fpsMeasure=true;},
-        'init': function() { MB_usingCanvas ? MB_InitCanvas() : MB_InitDOM(); },     
-        'on': function() { running=true; MB_Start()},
-        'off': MB_Stop,
+        'init': function() { MB_usingCanvas ? MB_InitCanvas() : MB_InitDOM(); MB_InitCore();},     
+        'on': function() { 
+            running=true; 
+            MB_Start();
+            if (MB_usingCSSAnimations){
+            //this solution is really stupid and temporary ( I hope )
+            //unfortunatelly any other didn't really work
+                var i = MB_elements.length;
+                for (;i--;){
+                    if (MB_elements[i].image) 
+                        MB_elements[i].image.style.webkitAnimationDuration = calculateSpeed(MB_elements[i].speed, MB_elements[i].fs)+'s';
+                }
+            }
+        },
+        'off': function(){ 
+            MB_Stop();
+            if (MB_usingCSSAnimations){
+            //this solution is really stupid and temporary ( I hope )
+            //unfortunatelly any other didn't really work            
+                var i = MB_elements.length;
+                for (;i--;){
+                    if (MB_elements[i].image) 
+                        MB_elements[i].image.style.webkitAnimationDuration = 0;
+                }
+            }
+        },
         'canvas': function(){ return MB_mainCanvas; },
         'ctx': function() {return MB_mainContext; },
-        'canvasOff': function() {MB_usingCanvas=false;},
+        'canvasOff': function() {
+            MB_usingCanvas=false;
+            if (typeof MB_parentElement.style.webkitAnimation !== "undefined") {
+                //we have webkit CSS3 animation support 
+                //for now just in webkit, sorry Aurora users.
+                MB_usingCSSAnimations = true;
+            }
+        },
+        'cssAnimationOff': function() {MB_usingCSSAnimations=false;},
         'hitsOn': function() { if(MB_addedLoops.indexOf(MB_checkCollides) === -1) MB_addedLoops.push(MB_checkCollides); },
         'hitsOff': function() { rm(MB_checkCollides, MB_addedLoops); },
         
