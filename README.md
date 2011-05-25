@@ -11,7 +11,7 @@ Mibbu gives you everything you need for fast prototyping your Javascript game in
 
 ### Features of Mibbu ###
 * Rendering game using both - Canvas or DOM
-* Animation of the sprites (using Canvas, DOM or CSS Aniation in Webkit)
+* Animation of the sprites (using Canvas, DOM or CSS Animation in Webkit)
 * Collisions detection with collision zones
 * Simple background manager
 * Callbacks after given number of frames
