@@ -19,9 +19,9 @@ Mibbu gives you everything you need for fast prototyping your Javascript game in
 
 ### Change Log ###
 
-2011 05 23 - **v0.2/suiko** (5.54 KB, gzip 2.13 KB)
+2011 05 23 - **v0.2/suiko** (5.54 KB, gzip 2.13 KB) [[blogpost](http://michalbe.blogspot.com/2011/05/css3-animations-in-mibbu.html)]
 
-* CSS3 Animations support in Webkit browsers (tested on Chrome 11 & Safari 5.03) [blogpost](http://michalbe.blogspot.com/2011/05/css3-animations-in-mibbu.html)
+* CSS3 Animations support in Webkit browsers (tested on Chrome 11 & Safari 5.03) 
 * .cssAnimationOff() function added (works the same as .canvasOff() but for CSS Animations)
 * some major & minor bug fixes
 
