@@ -3,7 +3,7 @@ Mibbu
 
 #### First Javascript Game MicroFramework ####
 
-Mibbu gives you everything you need for fast prototyping your Javascript game in less than 2.5KB of gzipped code. Games created with Mibbu can be displayed using Canvas or DOM mode (you can change it with one single function, or use feature detection to use DOM where it is no canvas, like in IE family). Since **v0.2/suiko** Mibbu supports also CSS animations in Webkit ([blogpost](http://michalbe.blogspot.com/2011/05/css3-animations-in-mibbu.html)). 
+Mibbu gives you everything you need for fast prototyping your Javascript game in less than 2.5KB of gzipped code. Games created with Mibbu can be displayed using Canvas or DOM mode (you can change it with one single function, or use feature detection to use DOM where it is no canvas, like in IE family). Mibbu supports also CSS animations in Webkit ([blogpost](http://michalbe.blogspot.com/2011/05/css3-animations-in-mibbu.html)) and in Firefox BETA (5.0).
 
 
 [Documentation](http://mibbu.eu)
@@ -18,6 +18,11 @@ Mibbu gives you everything you need for fast prototyping your Javascript game in
 * Check [example](https://github.com/michalbe/mibbu/tree/master/example) for more
 
 ### Change Log ###
+
+2011 06 04 - **v0.2.1/birthdayAfterparty** (5.46 KB, gzip 2.12 KB)
+
+* CSS3 Animations support in Firefox (tested in 5.0/BETA) 
+* .indexOf() name changed for minimization and compatibility with other solutions
 
 2011 05 23 - **v0.2/suiko** (5.54 KB, gzip 2.13 KB) [[blogpost](http://michalbe.blogspot.com/2011/05/css3-animations-in-mibbu.html)]
 
