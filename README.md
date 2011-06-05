@@ -19,10 +19,14 @@ Mibbu gives you everything you need for fast prototyping your Javascript game in
 
 ### Change Log ###
 
+2011 06 05 - **v0.2.2/blackwater** (5.43 KB, gzip 2.12 KB)
+
+* Animation structure changed according to Marek Stepien's research on CSS Animations in Firefox [[blogpost](http://michalbe.blogspot.com/2011/06/css-animation-in-firefox.html#update)]
+
 2011 06 04 - **v0.2.1/birthdayAfterparty** (5.46 KB, gzip 2.12 KB)
 
 * CSS3 Animations support in Firefox (tested in 5.0/BETA) 
-* .indexOf() name changed for minimization and compatibility with other solutions
+* .indexOf() name changed for minimization and compatibility with other solutions [[blogpost](http://michalbe.blogspot.com/2011/06/css-animation-in-firefox.html)]
 
 2011 05 23 - **v0.2/suiko** (5.54 KB, gzip 2.13 KB) [[blogpost](http://michalbe.blogspot.com/2011/05/css3-animations-in-mibbu.html)]
 
