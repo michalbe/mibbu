@@ -390,7 +390,7 @@ var mibbu = function(Cwidth, Cheight, _parent){
                 document.body.appendChild(t.animStyle);
                 
                 //additional style attribute for the image,
-                t.si[ MB_prefixJS + "Animation" ] = "s"+t.id+" "+calculateSpeed(t.speed, t.fs)+"s linear none infinite normal";
+                t.si[ MB_prefixJS + "Animation" ] = "s"+t.id+" "+calculateSpeed(t.speed, t.fs)+"s linear 0s infinite";
 
                 
             }
