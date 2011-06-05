@@ -30,7 +30,9 @@ var mibbu = function(Cwidth, Cheight, _parent){
         MB_collides=[], //array with references to objects with enabled collisions
         MB_fixedIndexColl = [], //workaround for collisions
         MB_Animate,
-        MB_mainCanvasStyle; 
+        MB_mainCanvasStyle,
+        MB_prefixCSS,
+        MB_prefixJS; 
     /**
     * Older browser's fixes
     */
@@ -66,7 +68,7 @@ var mibbu = function(Cwidth, Cheight, _parent){
     // lastIndexOf implementation by Andrea Giammarchi
     // form Falsy Values conference
     // http://webreflection.blogspot.com
-    Array.prototype.indexOf = Array.prototype.indexOf ||
+    Array.prototype.i = Array.prototype.indexOf ||
     function(value){
         for (var i = this.length; i-- && this[i]!== value;) {}
         return i;
@@ -74,8 +76,8 @@ var mibbu = function(Cwidth, Cheight, _parent){
 
     //and custom remove() method
     var rm = function(value, array) {
-        if (array.indexOf(value)!==-1) {
-        array.splice(array.indexOf(value), 1);
+        if (array.i(value)!==-1) {
+        array.splice(array.i(value), 1);
         return true;
     } else {
         return false;
@@ -312,9 +314,9 @@ var mibbu = function(Cwidth, Cheight, _parent){
             t = {},
             //prepare class for CSS animation
             constructAnimationClass = function(){
-                var animationClass = "@-webkit-keyframes 's"+t.id+"' {\n",
+                var animationClass = "@" + MB_prefixCSS + "keyframes s"+t.id+" {\n",
                     step = 100/(t.fs+1),
-                    str = '% { -webkit-transform: translate(';
+                    str = "% { " + MB_prefixCSS + "transform: translate(";
                 for (var q = 0; q < t.fs+1; q++) {
                     animationClass += ~~((step*q)*100)/100+ str +t.animation*t.width*-1+'px,'+q*t.height*-1+'px); }\n';
                     animationClass += ~~((step*(q+1)-0.01)*100)/100+ str +t.animation*t.width*-1+'px,'+q*t.height*-1+'px); }\n';
@@ -387,8 +389,9 @@ var mibbu = function(Cwidth, Cheight, _parent){
                 //document.getElementsByTagName('head')[0]
                 document.body.appendChild(t.animStyle);
                 
-                //additional style attribute for the image
-                t.si.webkitAnimation = "'s"+t.id+"' "+calculateSpeed(t.speed, t.fs)+"s linear 0 infinite";
+                //additional style attribute for the image,
+                t.si[ MB_prefixJS + "Animation" ] = "s"+t.id+" "+calculateSpeed(t.speed, t.fs)+"s linear none infinite normal";
+
                 
             }
             
@@ -423,9 +426,9 @@ var mibbu = function(Cwidth, Cheight, _parent){
         },
         
         setCollide = function(e) {
-            if (e && MB_collides.indexOf(t) === -1) {
+            if (e && MB_collides.i(t) === -1) {
                 MB_collides.push(t);
-            } else if (!e && MB_collides.indexOf(t) !== -1){
+            } else if (!e && MB_collides.i(t) !== -1){
                 rm(t, MB_collides);
             }
         },
@@ -433,7 +436,7 @@ var mibbu = function(Cwidth, Cheight, _parent){
         onHit = function (object, callback) {
             setCollide(true);
             t.hits[object.id()] = callback;
-            if (MB_collides.indexOf(t) === -1) {
+            if (MB_collides.i(t) === -1) {
                 MB_collides.push(t);
             }
         };        
@@ -483,10 +486,10 @@ var mibbu = function(Cwidth, Cheight, _parent){
                 t.height = h;
                 if (MB_usingCSSAnimations) {
                     //any smarter way to refresh cssAnimation than clearing the name of it?
-                    t.si.webkitAnimationName = '';
+                    t.si[ MB_prefixJS+ "AnimationName" ] = '';
                     t.animStyle.innerHTML = constructAnimationClass();
-                    t.si.webkitAnimationName = 's'+t.id;
-                    //t.si.webkitAnimationDuration = calculateSpeed(t.speed, t.fs)+'s';
+                    t.si[ MB_prefixJS+ "AnimationName" ] = 's'+t.id;
+    
                 };
             }
             return {width:t.width,height:t.height};
@@ -532,9 +535,9 @@ var mibbu = function(Cwidth, Cheight, _parent){
                     t.s.height = height+'px';
                     if (MB_usingCSSAnimations) {
                     //any smarter way to refresh cssAnimation than clearing it's name?
-                        t.si.webkitAnimationName = '';
+                        t.si[ MB_prefixJS+ "AnimationName" ] = '';
                         t.animStyle.innerHTML = constructAnimationClass(); 
-                        t.si.webkitAnimationName = 's'+t.id;
+                        t.si[ MB_prefixJS+ "AnimationName" ] = 's'+t.id;
                     }
                 }
                 
@@ -552,7 +555,7 @@ var mibbu = function(Cwidth, Cheight, _parent){
                     t.speed=e; 
                     t.interval=0; 
                     if (MB_usingCSSAnimations){
-                        t.si.webkitAnimationDuration = calculateSpeed(e, t.fs)+'s';
+                        t.si[ MB_prefixJS+ "AnimationDuration" ] = calculateSpeed(e, t.fs)+'s';
                     } 
                 } 
                 return t.speed;
@@ -564,9 +567,9 @@ var mibbu = function(Cwidth, Cheight, _parent){
                     
                     if (MB_usingCSSAnimations) {
                     //any smarter way to refresh cssAnimation than clearing the name of it?
-                        t.si.webkitAnimationName = '';
+                        t.si[ MB_prefixJS+ "AnimationName" ] = '';
                         t.animStyle.innerHTML = constructAnimationClass(); 
-                        t.si.webkitAnimationName = 's'+t.id;
+                        t.si[ MB_prefixJS+ "AnimationName" ] = 's'+t.id;
                     }
                 } 
                 return t.animation;
@@ -704,7 +707,7 @@ var mibbu = function(Cwidth, Cheight, _parent){
                 var i = MB_elements.length;
                 for (;i--;){
                     if (MB_elements[i].image) 
-                        MB_elements[i].image.style.webkitAnimationDuration = calculateSpeed(MB_elements[i].speed, MB_elements[i].fs)+'s';
+                        MB_elements[i].image.style[ MB_prefixJS+ "AnimationDuration" ] = calculateSpeed(MB_elements[i].speed, MB_elements[i].fs)+'s';
                 }
             }
         },
@@ -716,22 +719,35 @@ var mibbu = function(Cwidth, Cheight, _parent){
                 var i = MB_elements.length;
                 for (;i--;){
                     if (MB_elements[i].image) 
-                        MB_elements[i].image.style.webkitAnimationDuration = 0;
+                        MB_elements[i].image.style[ MB_prefixJS+ "AnimationDuration" ] = 0;
                 }
             }
         },
         'canvas': function(){ return MB_mainCanvas; },
         'ctx': function() {return MB_mainContext; },
         'canvasOff': function() {
+            
             MB_usingCanvas=false;
-            if (typeof MB_parentElement.style.webkitAnimation !== "undefined") {
+            
+            
+            if (typeof MB_parentElement.style.WebkitAnimation !== "undefined") {
+               
                 //we have webkit CSS3 animation support 
-                //for now just in webkit, sorry Aurora users.
+                MB_prefixCSS = "-webkit-";
+                MB_prefixJS = "Webkit"; 
+                MB_usingCSSAnimations = true;
+                  
+            } else if (typeof MB_parentElement.style['MozAnimation'] !== "undefined") {
+            //stupid Closure Compiler don't understand style.MozAnimation so I had to use brackets here
+            
+                //and in Firefox
+                MB_prefixCSS = "-moz-";
+                MB_prefixJS = "Moz";
                 MB_usingCSSAnimations = true;
             }
         },
         'cssAnimationOff': function() {MB_usingCSSAnimations=false;},
-        'hitsOn': function() { if(MB_addedLoops.indexOf(MB_checkCollides) === -1) MB_addedLoops.push(MB_checkCollides); },
+        'hitsOn': function() { if(MB_addedLoops.i(MB_checkCollides) === -1) MB_addedLoops.push(MB_checkCollides); },
         'hitsOff': function() { rm(MB_checkCollides, MB_addedLoops); },
         
         //elements
