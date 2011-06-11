@@ -19,7 +19,7 @@ Mibbu gives you everything you need for fast prototyping your Javascript game in
 
 ### Change Log ###
 
-2011 06 11 - **0.2.2/kamehameha**  (5.42 KB, gzip 2.12 KB)
+2011 06 11 - **0.2.3/kamehameha**  (5.42 KB, gzip 2.12 KB)
 
 * FPS module optimization
 
