@@ -92,8 +92,8 @@ var mibbu = function(Cwidth, Cheight, _parent){
     var frameCount=0;
     var fps = 0;
     var MeasureFPS = function(){
-        var newTime = new Date();
-        var diffTime = ~~((newTime.getTime() - MB_lastTime.getTime()));
+        var newTime = +(new Date());
+        var diffTime = ~~((newTime - MB_lastTime));
         
         if (diffTime >= 1000) {
             fps = frameCount;
