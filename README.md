@@ -19,6 +19,10 @@ Mibbu gives you everything you need for fast prototyping your Javascript game in
 
 ### Change Log ###
 
+2011 06 11 - **0.2.2/kamehameha**  (5.42 KB, gzip 2.12 KB)
+
+* FPS module optimization
+
 2011 06 05 - **v0.2.2/blackwater** (5.43 KB, gzip 2.12 KB)
 
 * Animation structure changed according to Marek Stepien's research on CSS Animations in Firefox [[blogpost](http://michalbe.blogspot.com/2011/06/css-animation-in-firefox.html#update)]
