@@ -591,24 +591,30 @@ var mibbu = function(Cwidth, Cheight, _parent){
         var draw = MB_usingCanvas ? function(){
             //draw Canvas
                 try {
-                    MB_mainContext.i(t.image, t.posX, t.posY);
-                    MB_mainContext.i(t.image, t.posX + t.image.width * t.dX, t.posY + t.image.height * t.dY);
-                    MB_mainContext.i(t.image, t.posX - t.image.width * t.dX, t.posY - t.image.height * t.dY);
+					var posX = t.posX % t.image.width;
+					var posY = t.posY % t.image.height;
+					for (var x = posX-t.image.width; x < MB_mainCanvas.width; x += t.image.width) {
+						for (var y = posY-t.image.height; y < MB_mainCanvas.height; y += t.image.height) {
+							MB_mainContext.i(t.image, x, y);
+						}
+					}
+                    
                 } catch(e) {};
 
-                if (t.dX === -1) {
+                if (t.dX < 0) {
                     if (t.posX < (t.image.width*-1)) {
                         t.posX = 0;
                     }
-                } else if (t.dX === 1) {
+                } else if (t.dX > 0) {
                     if (t.posX > (t.image.width)) {
                         t.posX = 0;
                     }
-                } else if (t.dY === -1) {
+                } 
+				if (t.dY < 0) {
                     if (t.posY < (t.image.height*-1)) {
                         t.posY = 0;
                     }
-                } else if (t.dY === 1) {
+                } else if (t.dY > 0) {
                     if (t.posY > (t.image.height)) {
                         t.posY = 0;
                     }
