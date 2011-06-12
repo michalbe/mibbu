@@ -591,8 +591,9 @@ var mibbu = function(Cwidth, Cheight, _parent){
         var draw = MB_usingCanvas ? function(){
             //draw Canvas
                 try {
-					var posX = t.posX % t.image.width;
-					var posY = t.posY % t.image.height;
+					var posX = t.posX % t.image.width,
+					posY = t.posY % t.image.height;
+                    
 					for (var x = posX-t.image.width; x < MB_mainCanvas.width; x += t.image.width) {
 						for (var y = posY-t.image.height; y < MB_mainCanvas.height; y += t.image.height) {
 							MB_mainContext.i(t.image, x, y);
@@ -624,9 +625,10 @@ var mibbu = function(Cwidth, Cheight, _parent){
                 // If the values are too close to 0 JS will print them as exponentials
                 // which won't work on the DOM. There's probably a more efficient way to
                 // do this.
-                var posX = t.posX;
+                var posX = t.posX,
+                posY = t.posY;
+                
                 if (posX.toString().indexOf('e') != -1) posX = 0;
-                var posY = t.posY;
                 if (posY.toString().indexOf('e') != -1) posY = 0;
                 MB_mainCanvas.style.backgroundPosition = posX +"px "+posY+"px";    
             },
@@ -641,9 +643,8 @@ var mibbu = function(Cwidth, Cheight, _parent){
         
         t.speed = speed || 3;
 		
-		var radsPerDegree = Math.PI / 180;
-        
-        var direcionFromParameter = function(dir){
+		var radsPerDegree = Math.PI / 180,       
+        direcionFromParameter = function(dir){
             t.dX = 0;
             t.dY = 0;
             if (typeof dir === "string") {
@@ -681,8 +682,7 @@ var mibbu = function(Cwidth, Cheight, _parent){
         t.posX = options['x'] || 0;
         t.posY = options['y'] || 0;
         
-        t.id = MB_elements.push(t);
-        
+        t.id = MB_elements.push(t);        
         t.moving = 0;
 
         var setPosition = function(x, y) {
