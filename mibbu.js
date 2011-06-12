@@ -618,9 +618,9 @@ var mibbu = function(Cwidth, Cheight, _parent){
                 // If the values are too close to 0 JS will print them as exponentials
                 // which won't work on the DOM. There's probably a more efficient way to
                 // do this.
-                var posX = t.posX.toPrecision(6);
+                var posX = t.posX;
                 if (posX.toString().indexOf('e') != -1) posX = 0;
-                var posY = t.posY.toPrecision(6);
+                var posY = t.posY;
                 if (posY.toString().indexOf('e') != -1) posY = 0;
                 MB_mainCanvas.style.backgroundPosition = posX +"px "+posY+"px";    
             },
@@ -634,6 +634,8 @@ var mibbu = function(Cwidth, Cheight, _parent){
         }
         
         t.speed = speed || 3;
+		
+		var radsPerDegree = Math.PI / 180;
         
         var direcionFromParameter = function(dir){
             t.dX = 0;
@@ -661,15 +663,9 @@ var mibbu = function(Cwidth, Cheight, _parent){
                 }
             }
             else if (typeof dir === "number") {
-                dir = Math.PI / 180 * dir; // convert from degrees to radians
+                dir =  radsPerDegree * dir; // convert from degrees to radians
                 t.dX = Math.cos(dir);
                 t.dY = Math.sin(dir);
-                
-                /*var threshold = 0.001;
-                if (t.dX > 0 && t.dX < threshold) t.dX = 0;
-                else if (t.dX < 0 && t.dX > -threshold) t.dX = 0;
-                if (t.dY > 0 && t.dY < threshold) t.dY = 0;
-                else if (t.dY < 0 && t.dY > -threshold) t.dY = 0;*/
             }
         }
         
