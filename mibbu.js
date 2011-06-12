@@ -615,7 +615,14 @@ var mibbu = function(Cwidth, Cheight, _parent){
                 }
             } : function(){
                 //draw DOM
-                MB_mainCanvas.style.backgroundPosition = t.posX +"px "+t.posY+"px";    
+                // If the values are too close to 0 JS will print them as exponentials
+                // which won't work on the DOM. There's probably a more efficient way to
+                // do this.
+                var posX = t.posX;
+                if (posX.toString().indexOf('e') != -1) posX = 0;
+                var posY = t.posY;
+                if (posY.toString().indexOf('e') != -1) posY = 0;
+                MB_mainCanvas.style.backgroundPosition = posX +"px "+posY+"px";    
             },
             t = this;
         
@@ -627,33 +634,42 @@ var mibbu = function(Cwidth, Cheight, _parent){
         }
         
         t.speed = speed || 3;
+		
+		var radsPerDegree = Math.PI / 180;
         
-        var direcionFromString = function(dirString){
-            switch (dirString) {
-                case 'N':
-                    t.dX = 0;
-                    t.dY = -1;
-                    break;    
-                case 'W':
-                    t.dX = -1;
-                    t.dY = 0;
-                    break;
-                case 'S':
-                    t.dX = 0;
-                    t.dY = 1;
-                    break;
-                case 'E':
-                    t.dX = 1;
-                    t.dY = 0;
-                    break;                
-                default:
-                    t.dX = 0;
-                    t.dY = 0;
-                    break;
+        var direcionFromParameter = function(dir){
+            t.dX = 0;
+            t.dY = 0;
+            if (typeof dir === "string") {
+                switch (dir) {
+                    case 'N':
+                        t.dX = 0;
+                        t.dY = -1;
+                        break;    
+                    case 'W':
+                        t.dX = -1;
+                        t.dY = 0;
+                        break;
+                    case 'S':
+                        t.dX = 0;
+                        t.dY = 1;
+                        break;
+                    case 'E':
+                        t.dX = 1;
+                        t.dY = 0;
+                        break;                
+                    default:
+                        break;
+                }
+            }
+            else if (typeof dir === "number") {
+                dir =  radsPerDegree * dir; // convert from degrees to radians
+                t.dX = Math.cos(dir);
+                t.dY = Math.sin(dir);
             }
         }
         
-        direcionFromString(direction);
+        direcionFromParameter(direction);
         
         t.zOrder = options['z'] || 0;
         t.posX = options['x'] || 0;
@@ -680,7 +696,7 @@ var mibbu = function(Cwidth, Cheight, _parent){
         return {
             'on': function() { t.moving = 1; },
             'off': function() { t.moving = 0; },
-            'dir': function(direction) { t.posX = t.posY = 0; direcionFromString(direction); },
+            'dir': function(direction) { direcionFromParameter(direction); },
             'speed':function(e) { if (e !== undefined) { t.speed=e; } return t.speed;},
             'position':setPosition
         }
