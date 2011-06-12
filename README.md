@@ -19,6 +19,11 @@ Mibbu gives you everything you need for fast prototyping your Javascript game in
 
 ### Change Log ###
 
+2011 06 12 - **0.2.4/annefrank** (5.57 KB, gzip 2.30 KB) by [MartinDoms](https://github.com/MartinDoms)
+
+* background direction could be now specified in both, strings ("N", "S", "E", "W") and numbers (radians)
+* it is possible to change background direction 'on the fly' without resetting the background position
+
 2011 06 11 - **0.2.3/kamehameha**  (5.42 KB, gzip 2.12 KB)
 
 * FPS module optimization
