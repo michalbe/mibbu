@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
-	<head>
+    <head>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 		<title>Mibbu test</title>
 		
@@ -15,20 +15,13 @@
         var Game = new mibbu(500, 500);
         
 	//uncomment line below for disabling 
-	//canvas and swiching to DOM rendering
-        Game.canvasOff();  
-		
-    //comment line below (only in DOM mode) to enable CSS3 Animations
-    //(only in webkit browsers)
-        //Game.cssAnimationOff();
-        
-	//show FPS counter
-        Game.fps();
-		
-	//now init all the elements - before calling 
-	//init funciton Mibbu didn't know if you want 
-	//to render it on canvas or using DOM
-        Game.init();    
+	//
+        Game.fps()              //show FPS counter
+            .canvasOff()        //comment this line for disabling canvas and swiching to DOM rendering
+            //.cssAnimationOff()//uncomment this in DOM mode to disable CSS3 Animations (only in webkit & Firefox Beta browsers)     
+            .init()             //now init all the elements - before calling 
+                                //init() funciton Mibbu didn't know if you want 
+                                //to render it on canvas or using DOM   
         
 	//create two sprites using reptile.png image, with
 	//width & height of single frame equals to 200,
@@ -39,40 +32,43 @@
             //create new background using bg.jpg file and set it's speed
 	    //to 6, direction to SOUTH, and initial position to (0,0)
             background = new Game.bg('img/bg.jpg', 6, "S", {x:0,y:0});
-        
+     
+     
 	//set position of 1st sprite to (100, 100) and
 	//it's x-index to 2
-        sprite.position(100, 100, 2);
-		
-	//set speed of redrwing the sprite frames
-        sprite.speed(4);
+    //then speed of redrwing the sprite frames
+        sprite.position(100, 100, 2).speed(4);
 		
 	//extend sprite object with some additional 
 	//variables fr control movement etc.
 	//it is up to you how you will achieve this - 
 	//- it is not part of Mibbu
-        sprite.y = 100;
+    sprite.y = 100;
 	sprite.d = 1;
 	sprite.type = 0;
 		
 	//the same here
-        //but we create variable for the speed of the animation
+    //but we create variable for the speed of the animation
 	//we will use it later
-        var speed = sprite2.speed(4);
-
-	sprite2.position(100, 300, 2);
+    var speed = 4;
+    
+    sprite2.speed(4).position(100, 300, 2);
 	sprite2.y = 300;
 	sprite2.d = -1;
 		
 	//resize second sprite and remember 
 	//it's size in the file (functions like
-	//size(), frames(), etc. always return
-	//their values, even if you call them
+	//size(), frames(), etc. return
+	//their values when you call them
 	//without parameters, like sprite2.size();
-	var size = sprite2.size(100, 100);
+    //We use chaining in here, so to receive
+    //size we have to use that dirty hack with
+    //calling one function twice
+	var size = sprite2.size(100, 100).size();
 		
 	//start moving background
-        background.on();
+    //and setting random direction and speed
+        background.speed(~~(Math.random()*10)+1).dir(~~(Math.random()*180)).on();
 		
 	//start main game loop
         Game.on();
@@ -95,10 +91,10 @@
 	}
 
 	//now add that function to the loop
-	Game.hook(additionalLoop);
+    //and start checking for the collisions
+	Game.hook(additionalLoop).hitsOn();
 		
-	//lets check for the collisions
-	Game.hitsOn();
+
 		
 	//if 'sprite' will collide with 'sprite2' then:
 	sprite.hit(sprite2, function(){

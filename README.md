@@ -19,6 +19,10 @@ Mibbu gives you everything you need for fast prototyping your Javascript game in
 
 ### Change Log ###
 
+2011 06 12 - **0.3/arkansas** (5.89 KB, gzip 2.37 KB)
+
+* every method now return itself when you call it with parameters (like .speed(3)) so it's possile to connect multiple methods into one chain (like background.speed(4).direction(-20)). Methods called without arguments returns value of given metod (like background.speed() return the speed of the background) 
+
 2011 06 12 - **0.2.4/annefrank** (5.57 KB, gzip 2.30 KB) by [MartinDoms](https://github.com/MartinDoms)
 
 * background direction could be now specified in both, strings ("N", "S", "E", "W") and numbers (radians)

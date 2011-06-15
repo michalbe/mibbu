@@ -72,17 +72,17 @@ var mibbu = function(Cwidth, Cheight, _parent){
     function(value){
         for (var i = this.length; i-- && this[i]!== value;) {}
         return i;
-    }
+    };
 
     //and custom remove() method
     var rm = function(value, array) {
         if (array.i(value)!==-1) {
-        array.splice(array.i(value), 1);
-        return true;
-    } else {
-        return false;
-    };
-    } 
+            array.splice(array.i(value), 1);
+            return true;
+        } else {
+            return false;
+        }
+    } ;
 
         
     /**
@@ -180,7 +180,7 @@ var mibbu = function(Cwidth, Cheight, _parent){
         MB_mainCanvas.height = MB_mainCanvasHeight;
         MB_mainCanvasStyle.width = MB_mainCanvasWidth+'px';
         MB_mainCanvasStyle.height =MB_mainCanvasHeight+'px';
-        MB_mainCanvasStyle.position ='absolute'
+        MB_mainCanvasStyle.position ='absolute';
         MB_mainCanvasStyle.overflow = 'hidden';
         
         MB_parentElement.appendChild(MB_mainCanvas);
@@ -404,25 +404,33 @@ var mibbu = function(Cwidth, Cheight, _parent){
         MB_fixedIndexColl.push(t); //for collisions, temporary
                 
         var setPosition = function(x, y, z) {
-            t.posX = x || t.posX;
-            t.posY = y || t.posY;
-            t.zOrder = z || t.zOrder;
-            
-            if (MB_usingCanvas) {
-                if (z) {
-                    MB_elements.sort(function(a, b){
-                        //return a.zOrder - b.zOrder;}
-                        return b.zOrder - a.zOrder;
-                    } //reversed becaouse of 'while' loop in DrawAll();                    
-                    );
-
-                }
+            //there is at least one argument,
+            //set position and return 'this' for chaining
+            if (x !== undefined) {
+                t.posX = x || t.posX;
+                t.posY = y || t.posY;
+                t.zOrder = z || t.zOrder;
+                
+                if (MB_usingCanvas) {
+                    if (z) {
+                        MB_elements.sort(function(a, b){
+                        
+                            return b.zOrder - a.zOrder;
+                        }                    
+                        );
+    
+                    }
+                } else {
+                    t.s.left = x+'px';
+                    t.s.top = y+'px';
+                    t.s.zIndex = z || t.zOrder;
+                }   
+                return this;
             } else {
-                t.s.left = x+'px';
-                t.s.top = y+'px';
-                t.s.zIndex = z || t.zOrder;
-            }   
-            return {x:t.posX, y:t.posY, z:t.zOrder}
+                //method called without parameters, return 
+                //actual position
+                return {x:t.posX, y:t.posY, z:t.zOrder}
+            }
         },
         
         setCollide = function(e) {
@@ -439,6 +447,7 @@ var mibbu = function(Cwidth, Cheight, _parent){
             if (MB_collides.i(t) === -1) {
                 MB_collides.push(t);
             }
+            return this;
         };        
         
         t.draw = function() {
@@ -472,6 +481,9 @@ var mibbu = function(Cwidth, Cheight, _parent){
             }
         }; 
         var reSize = function(w, h){
+            //there are some arguments
+            //so change size of the sprite
+            //and return 'this' for chaining
             if (w !== undefined) {
                 if (!MB_usingCanvas){
                     
@@ -491,8 +503,13 @@ var mibbu = function(Cwidth, Cheight, _parent){
                     t.si[ MB_prefixJS+ "AnimationName" ] = 's'+t.id;
     
                 };
+                
+                return this;
+                
+            } else {
+                
+                return {width:t.width,height:t.height};
             }
-            return {width:t.width,height:t.height};
         };
         
         return {
@@ -504,15 +521,20 @@ var mibbu = function(Cwidth, Cheight, _parent){
                     t.cZ.t = top;
                     t.cZ.r = right;
                     t.cZ.b = bottom;
+                    
+                    return this;
+                } else {
+                    return t.cZ;
                 }
-                return t.cZ;
             },
             'noHits':function() {
                 t.hits = {};
+                return this;
             },
             'callback':function(fn, iteration) {
                 t.callback = fn;
                 t.callMaxIters = iteration;
+                return this;
             },
             'change': function(image, width, height, frames, animation) {
                 t.image.src = image;
@@ -547,6 +569,8 @@ var mibbu = function(Cwidth, Cheight, _parent){
                     b: 0,
                     r: 0
                 }
+                
+                return this;
             },
             
             'size':reSize,
@@ -557,8 +581,11 @@ var mibbu = function(Cwidth, Cheight, _parent){
                     if (MB_usingCSSAnimations){
                         t.si[ MB_prefixJS+ "AnimationDuration" ] = calculateSpeed(e, t.fs)+'s';
                     } 
-                } 
-                return t.speed;
+                    
+                    return this;
+                } else {
+                    return t.speed;
+                }
             },
             'animation':function(e) { 
                 if (e !== undefined) { 
@@ -571,10 +598,20 @@ var mibbu = function(Cwidth, Cheight, _parent){
                         t.animStyle.innerHTML = constructAnimationClass(); 
                         t.si[ MB_prefixJS+ "AnimationName" ] = 's'+t.id;
                     }
-                } 
-                return t.animation;
+                    
+                    return this;
+                } else {
+                    return t.animation;
+                }
             },
-            'frame':function(e) { if (e !== undefined) t.f=e; return t.f;},
+            'frame':function(e) { 
+                if (e !== undefined) {
+                    t.f=e; 
+                    return this;
+                } else {
+                    return t.f;
+                }
+            },
             'id': function() { return t.id; }
         };
     };
@@ -626,7 +663,7 @@ var mibbu = function(Cwidth, Cheight, _parent){
                 // which won't work on the DOM. There's probably a more efficient way to
                 // do this.
                 var posX = t.posX,
-                posY = t.posY;
+                    posY = t.posY;
                 
                 if (posX.toString().indexOf('e') != -1) posX = 0;
                 if (posY.toString().indexOf('e') != -1) posY = 0;
@@ -686,10 +723,14 @@ var mibbu = function(Cwidth, Cheight, _parent){
         t.moving = 0;
 
         var setPosition = function(x, y) {
-            t.posX = x || t.posX;
-            t.posY = y || t.posY; 
-
-            return {x:t.posX, y:t.posY}
+            if (x !== undefined) {
+                t.posX = x || t.posX;
+                t.posY = y || t.posY; 
+                
+                return this;
+            } else {
+                return {x:t.posX, y:t.posY}
+            }
         };
         
         t.draw = function() {
@@ -700,10 +741,10 @@ var mibbu = function(Cwidth, Cheight, _parent){
         }
         
         return {
-            'on': function() { t.moving = 1; },
-            'off': function() { t.moving = 0; },
-            'dir': function(direction) { direcionFromParameter(direction); },
-            'speed':function(e) { if (e !== undefined) { t.speed=e; } return t.speed;},
+            'on': function() { t.moving = 1; return this;},
+            'off': function() { t.moving = 0; return this;},
+            'dir': function(direction) { direcionFromParameter(direction); return this;},
+            'speed':function(e) { if (e !== undefined) { t.speed=e; return this;} else return t.speed;},
             'position':setPosition
         }
         
@@ -718,8 +759,8 @@ var mibbu = function(Cwidth, Cheight, _parent){
     
     return {
         //config
-        'fps': function() {MB_fpsMeasure=true;},
-        'init': function() { MB_usingCanvas ? MB_InitCanvas() : MB_InitDOM(); MB_InitCore();},     
+        'fps': function() {MB_fpsMeasure=true; return this;},
+        'init': function() { MB_usingCanvas ? MB_InitCanvas() : MB_InitDOM(); MB_InitCore(); return this;},     
         'on': function() { 
             running=true; 
             MB_Start();
@@ -732,6 +773,7 @@ var mibbu = function(Cwidth, Cheight, _parent){
                         MB_elements[i].image.style[ MB_prefixJS+ "AnimationDuration" ] = calculateSpeed(MB_elements[i].speed, MB_elements[i].fs)+'s';
                 }
             }
+            return this;
         },
         'off': function(){ 
             MB_Stop();
@@ -744,6 +786,7 @@ var mibbu = function(Cwidth, Cheight, _parent){
                         MB_elements[i].image.style[ MB_prefixJS+ "AnimationDuration" ] = 0;
                 }
             }
+            return this;
         },
         'canvas': function(){ return MB_mainCanvas; },
         'ctx': function() {return MB_mainContext; },
@@ -767,18 +810,39 @@ var mibbu = function(Cwidth, Cheight, _parent){
                 MB_prefixJS = "Moz";
                 MB_usingCSSAnimations = true;
             }
+            return this;
         },
-        'cssAnimationOff': function() {MB_usingCSSAnimations=false;},
-        'hitsOn': function() { if(MB_addedLoops.i(MB_checkCollides) === -1) MB_addedLoops.push(MB_checkCollides); },
-        'hitsOff': function() { rm(MB_checkCollides, MB_addedLoops); },
+        
+        'cssAnimationOff': function() {
+            MB_usingCSSAnimations=false; 
+            return this;
+        },
+        
+        'hitsOn': function() {
+            if (MB_addedLoops.i(MB_checkCollides) === -1) 
+                MB_addedLoops.push(MB_checkCollides); 
+            return this;
+        },
+        
+        'hitsOff': function() { 
+            rm(MB_checkCollides, MB_addedLoops); 
+            return this;
+        },
         
         //elements
         'spr':MB_Sprite,
         'bg': MB_Background,
         
         //loops
-        'hook': function(e){MB_addedLoops.push(e);},
-        'unhook': function(e){rm(e, MB_addedLoops);}
+        'hook': function(e){
+            MB_addedLoops.push(e); 
+            return this;
+        },
+        
+        'unhook': function(e){
+            rm(e, MB_addedLoops);
+            return this;
+        }
         
     };
 };
