@@ -671,12 +671,15 @@ var mibbu = function(Cwidth, Cheight, _parent){
             },
             t = this;
         
-        if (MB_usingCanvas) {
-            t.image = new Image();
-            t.image.src = image;
-        } else {
-            MB_mainCanvas.style.backgroundImage = 'url('+image+')';
-        }
+        var setImage = function(img) {
+	        if (MB_usingCanvas) {
+	            t.image = new Image();
+	            t.image.src = img;
+	        } else {
+	            MB_mainCanvas.style.backgroundImage = 'url('+img+')';
+	        }
+        };
+        setImage(image);
         
         t.speed = speed || 3;
 		
@@ -745,6 +748,7 @@ var mibbu = function(Cwidth, Cheight, _parent){
             'off': function() { t.moving = 0; return this;},
             'dir': function(direction) { direcionFromParameter(direction); return this;},
             'speed':function(e) { if (e !== undefined) { t.speed=e; return this;} else return t.speed;},
+            'img': function(img) { if (img !== undefined) { setImage(img); return this;} else return image;},
             'position':setPosition
         }
         
