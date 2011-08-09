@@ -22,7 +22,7 @@ Mibbu gives you everything you need for fast prototyping your Javascript game in
 
 2011 08 09 - **0.3.2/nagasaki** (5.62 KB, gzip 2.29 KB)
 
-* one pixel background margin in Canvas Mode fixed.
+* one pixel background margin bug in Canvas Mode fixed.
 
 2011 08 07 - **0.3.1/victor** (5.91 KB, gzip 2.36 KB) by [end3r](https://github.com/end3r)
 
