@@ -625,40 +625,8 @@ var mibbu = function(Cwidth, Cheight, _parent){
     **/
     var MB_Background = function(image, speed, direction, options) {
         
-        var draw = MB_usingCanvas ? function(){
-            //draw Canvas
-                try {
-					var posX = t.posX % t.image.width,
-					posY = t.posY % t.image.height;
-                    
-					for (var x = posX-t.image.width; x < MB_mainCanvas.width; x += t.image.width) {
-						for (var y = posY-t.image.height; y < MB_mainCanvas.height; y += t.image.height) {
-							MB_mainContext.i(t.image, x, y);
-						}
-					}
-                    
-                } catch(e) {};
-
-                if (t.dX < 0) {
-                    if (t.posX < (t.image.width*-1)) {
-                        t.posX = 0;
-                    }
-                } else if (t.dX > 0) {
-                    if (t.posX > (t.image.width)) {
-                        t.posX = 0;
-                    }
-                } 
-				if (t.dY < 0) {
-                    if (t.posY < (t.image.height*-1)) {
-                        t.posY = 0;
-                    }
-                } else if (t.dY > 0) {
-                    if (t.posY > (t.image.height)) {
-                        t.posY = 0;
-                    }
-                }
-            } : function(){
-                //draw DOM
+        var draw = function(){
+                //draw DOM & Canvas
                 // If the values are too close to 0 JS will print them as exponentials
                 // which won't work on the DOM. There's probably a more efficient way to
                 // do this.
@@ -672,13 +640,9 @@ var mibbu = function(Cwidth, Cheight, _parent){
             t = this;
         
         var setImage = function(img) {
-	        if (MB_usingCanvas) {
-	            t.image = new Image();
-	            t.image.src = img;
-	        } else {
-	            MB_mainCanvas.style.backgroundImage = 'url('+img+')';
-	        }
+	       MB_mainCanvas.style.backgroundImage = 'url('+img+')';
         };
+
         setImage(image);
         
         t.speed = speed || 3;
