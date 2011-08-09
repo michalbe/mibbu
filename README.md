@@ -20,6 +20,14 @@ Mibbu gives you everything you need for fast prototyping your Javascript game in
 
 ### Change Log ###
 
+2011 08 09 - **0.3.2/nagasaki** (5.62 KB, gzip 2.29 KB)
+
+* one pixel background margin in Canvas Mode fixed.
+
+2011 08 07 - **0.3.1/victor** (5.91 KB, gzip 2.36 KB) by [end3r](https://github.com/end3r)
+
+* it's now possible to switch background image using .img() function
+
 2011 06 12 - **0.3/arkansas** (5.89 KB, gzip 2.37 KB)
 
 * every method now return itself when you call it with parameters (like .speed(3)) so it's possile to connect multiple methods into one chain (like background.speed(4).direction(-20)). Methods called without arguments returns value of given metod (like background.speed() return the speed of the background) 
